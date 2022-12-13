@@ -54,12 +54,12 @@ def get_reverse_primer(seq, seq_f, n, amplicon_min, amplicon_max, gc_min=50, gc_
         if gc_content(subseq) >= gc_min / 100 and gc_content(subseq) <= gc_max / 100 and calculate_tm(subseq) >= tm_min and calculate_tm(subseq) <= tm_max and not is_self_compliment(subseq, max_self_compliment):
             result.append(subseq)
             return subseq
-
-    for subseq in moving_window(seq_2, n):
-        if gc_content(subseq) >= gc_min / 100 and gc_content(subseq) <= gc_max / 100 and calculate_tm(subseq) >= tm_min and calculate_tm(subseq) <= tm_max and not is_self_compliment(subseq, max_self_compliment):
-            result.append(subseq)
-        
-        return subseq
+    if not result:
+        for subseq in moving_window(seq_2, n):
+            if gc_content(subseq) >= gc_min / 100 and gc_content(subseq) <= gc_max / 100 and calculate_tm(subseq) >= tm_min and calculate_tm(subseq) <= tm_max and not is_self_compliment(subseq, max_self_compliment):
+                result.append(subseq)
+            
+            return subseq
     
     if not result:
         return False
